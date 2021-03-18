@@ -6,6 +6,8 @@ import {
 } from 'react-native';
 import RNFetchBlob from "rn-fetch-blob";
 
+import { ozToMl , inToCm , lbsToKg , mlToOz , cmToIn , kgToLbs} from './conversionFunctions';
+
 class imageDownload extends Component {
   constructor() {
     super()
@@ -13,7 +15,7 @@ class imageDownload extends Component {
       image_url: "",
       url: "",
       imgPath:"",
-      fileName:""
+      fileName:"",
     }
 
   }
@@ -21,7 +23,6 @@ class imageDownload extends Component {
     this.setState({
       image_url: this.state.url
     })
-    // console.log('FileNAme' ,this.state.fileName );
 
   }
 
@@ -34,7 +35,8 @@ class imageDownload extends Component {
     let dirs = RNFetchBlob.fs.dirs;
     RNFetchBlob.config({
         // . is added infront of image name to hide it from gallery
-      path: dirs.DownloadDir + "/.image2.png",
+
+      path: dirs.DownloadDir + "/image.png",
     // path: dirs.DownloadDir + "/" + this.state.fileName + '.png',
       fileCache: true,
 
@@ -49,14 +51,9 @@ class imageDownload extends Component {
       .then(res => {
         this.setState({
           loading: false,
-          imgPath: res.data,
+          imgPath: res.data
         });
-        // console.log('downloadedFilePath' , res.data  , 'nameofFile' , this.state.nameOfFile);
 
-        // const fileName = this.state.image_url.split('/').pop();
-        // console.log('fileName',fileName , 'imgPAth' ,this.state.imgPath , 'imageUrl',this.state.image_url );
-
-        console.log('downloaded', )
         ToastAndroid.showWithGravity(
           "Download Completed!",
           ToastAndroid.LONG,
@@ -64,9 +61,6 @@ class imageDownload extends Component {
         );
       },
 
-    //   RNFetchBlob.fs.unlink(this.state.imgPath).then(() => {
-    //     console.log("unlinked")
-    //   })
       );
   };
  
@@ -124,11 +118,9 @@ render() {
         <Image
           style={styles.imageset}
           source={{ uri: `file://${this.state.imgPath}`}}
-        // source={{ uri:  'file:///storage/emulated/0/Download/'+this.state.fileName+'.png'}} 
 
         />
-      
-{/* <Text>{this.state.fileName}</Text> */}
+      {/* <Text>{this.state.imgPath}</Text> */}
       </View>
     );
   }
